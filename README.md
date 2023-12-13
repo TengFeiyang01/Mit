@@ -125,10 +125,10 @@ $ bash test-mr.sh
 
 ### 2.1 数据结构设计
 
-论文提到每个(Map或者Reduce)Task有分为idle, in-progress, completed 三种状态。
+论文提到每个(Map或者Reduce)Task有分为 **idle, in-progress, completed** 三种状态。
 
 ```Go
-type MasterTaskStatus int
+type CoordinatorTaskStatus int
 
 const (
 	Idle MasterTaskStatus = iota
@@ -150,6 +150,8 @@ type CoordinatorTask struct {
 此外Coordinator存储Map任务产生的R个中间文件的信息。
 
 ```Go
+type State int
+
 type Coordinator struct {
 	TaskQueue        chan *Task               // 等待执行的task
 	TaskMeta         map[int]*CoordinatorTask // 当前所有task的信息
